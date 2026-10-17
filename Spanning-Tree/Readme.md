@@ -34,7 +34,7 @@ Complete the following objectives using the appropriate configuration and verifi
 
 ## Network Topology
 
-![Network Topology](images/topology.png)
+![Network Topology](Images/topology.png)
 
 ## VLAN Configuration
 
