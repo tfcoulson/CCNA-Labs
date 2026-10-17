@@ -2,7 +2,7 @@
 
 ## Lab Overview
 
-This lab was created using **PingMyNetwork Sandbox** to practise configuring, verifying, and troubleshooting Rapid Per-VLAN Spanning Tree Plus (Rapid PVST+) in a redundant switched network.
+This lab was created using [PingMyNetwork Sandbox](https://www.pingmynetwork.com) to practise configuring, verifying, and troubleshooting Rapid Per-VLAN Spanning Tree Plus (Rapid PVST+) in a redundant switched network.
 
 The topology consists of two distribution switches (DSW1 and DSW2), three access switches (ASW1, ASW2, and ASW3), and six PCs across four VLANs.
 
