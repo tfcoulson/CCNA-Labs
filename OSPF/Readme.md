@@ -3,6 +3,7 @@
 ## Lab Overview
 
 This lab uses the [PingMyNetwork Sandbox](https://www.pingmynetwork.com) to practise configuring, verifying, and troubleshooting **OSPFv2** on a six-router network.
+The lab is available in the config folder - [OSPF-Start.json](configs/OSPF-Start.json)
 
 The topology consists of three interconnected routers (**R1, R2, and R3**) and three edge routers (**ER1, ER2, and ER3**). R1, R2, and R3 form a triangle, providing redundant paths if a network link fails. Each edge router connects to one of the main routers.
 
