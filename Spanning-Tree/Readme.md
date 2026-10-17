@@ -6,6 +6,8 @@ This lab was created using **PingMyNetwork Sandbox** to practise configuring, ve
 
 The topology consists of two distribution switches (DSW1 and DSW2), three access switches (ASW1, ASW2, and ASW3), and six PCs across four VLANs.
 
+There are two .Json files available - the initial Spanningtree-Start.json file and the completed Spanningtree-Complete.json file both available in the config folder along with the completed switch configurations.
+
 ### Initial Configuration
 
 - All switches are running standard PVST.
