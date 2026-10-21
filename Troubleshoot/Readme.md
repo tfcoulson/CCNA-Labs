@@ -16,7 +16,7 @@ This hands-on troubleshooting challenge has been created using the [PingMyNetwor
 
 Open [PingMyNetwork Sandbox](https://www.pingmynetwork.com/) and import `Troubleshoot-Start.json`.
 
-The configs folder also contains all completed switch and router configs. **Avoid opening until you have attempted the challenge.**
+The configs folder also contains all completed switch and router configs along with a faults.txt file containing all commands entered to break the lab. **Avoid opening until you have attempted the challenge.**
 
 ## Network topology
 
@@ -61,15 +61,26 @@ Area192 uses **VLAN 1** and has two LACP EtherChannel uplinks between `Area192_D
 Repair the internal network until all of these conditions are satisfied:
 
 1. **Area10 host addressing:** Both Area10 PCs have the correct IP address, subnet mask and default gateway, and each is connected to its intended VLAN.
+
 2. **Inter-VLAN routing:** Area10_PC1 (VLAN 10) and Area10_PC2 (VLAN 20) can communicate through Area10_DSW1.
+
 3. **Area10 upstream routing:** Area10 can reach R1, Area192 and `1.1.1.1`. Internal routing information is exchanged as intended.
+
 4. **Area10 management:** All five Area10 switches can reach each other and the management interfaces in Area192 using their VLAN 1 addresses.
+
 5. **Area10 spanning tree:** `Area10_DSW1` is the Rapid PVST+ root bridge for **VLANs 1, 10 and 20**. Required links forward correctly and the Layer 2 topology is loop-free.
-6. **Area192 gateway:** All Area192 clients and switches use the HSRP virtual IP `192.168.1.1` as their default gateway.
-7. **Area192 EtherChannels:** Both access-switch uplinks form operational LACP bundles and carry the required VLAN traffic as trunks.
-8. **Area192 spanning tree:** `Area192_DSW1` is the Rapid PVST+ root bridge for **VLAN 1**.
-9. **End-to-end reachability:** Both Area192 PCs can ping `1.1.1.1`, and the Area10 and Area192 switches can reach one another's management addresses.
-10. **Preserve the ISP network:** Do not modify `Internet`, `ISP_R1`, or `ISP_R2` or their routing configuration.
+
+6. **Area10 trunk configuration:** All inter-switch links in Area10 must be manually configured as 802.1Q trunks using `switchport mode trunk`. All required VLANs must be permitted across the appropriate trunk links. Dynamic trunk negotiation must not be used.
+
+7. **Area192 gateway:** All Area192 clients and switches use the HSRP virtual IP `192.168.1.1` as their default gateway.
+
+8. **Area192 EtherChannels and trunk negotiation:** Both access-switch uplinks must form operational LACP EtherChannels and successfully negotiate 802.1Q trunks using DTP. Verify that both Port-channel interfaces are bundled and operating in trunk mode. VLAN 1 connectivity alone is not sufficient to confirm successful trunk negotiation.
+
+9. **Area192 spanning tree:** `Area192_DSW1` is the Rapid PVST+ root bridge for **VLAN 1**.
+
+10. **End-to-end reachability:** Both Area192 PCs can ping `1.1.1.1`, and the Area10 and Area192 switches can reach one another's management addresses.
+
+11. **Preserve the ISP network:** Do not modify `Internet`, `ISP_R1`, or `ISP_R2` or their routing configuration.
 
 **Troubleshooting note:** There may be multiple independent faults, and one fault can conceal another. A successful ping to a single destination does not prove that the full network is repaired.
 
@@ -121,15 +132,24 @@ Use the commands appropriate to the device and the symptom.
 - [ ] Area10_PC2 can ping `10.20.20.17`.
 - [ ] Area10_PC1 and Area10_PC2 can ping each other.
 - [ ] Both Area10 PCs can ping `192.168.1.1` and `1.1.1.1`.
+- [ ] Both Area10 PCs have the correct IP addresses, subnet masks, default gateways and VLAN assignments.
 - [ ] All Area10 switches can reach the management interfaces of the other Area10 switches.
 - [ ] Area10 management switches can reach Area192 management IPs, and vice versa.
-- [ ] Area10_DSW1 is STP root for VLANs 1, 10 and 20.
+- [ ] All Area10 inter-switch links are manually configured as 802.1Q trunks using `switchport mode trunk`, without relying on DTP negotiation.
+- [ ] All Area10 trunks permit the required VLANs (1, 10 and 20 where applicable).
+- [ ] Area10_DSW1 is the Rapid PVST+ root bridge for VLANs 1, 10 and 20.
+- [ ] Area10_DSW1 and R1 have a fully established OSPF adjacency, with the expected routes present.
 - [ ] Area192_PC1 and Area192_PC2 can ping `192.168.1.1` and `1.1.1.1`.
-- [ ] Area192_DSW1, SW1 and SW2 have working management reachability.
-- [ ] Both Area192 LACP EtherChannels are operational, and their required trunks are forwarding.
-- [ ] Area192_DSW1 is STP root for VLAN 1.
-- [ ] HSRP has the correct active/standby roles and the virtual gateway responds.
-- [ ] All ISP-side devices remain unchanged.
+- [ ] Both Area192 PCs have the correct IP addresses, subnet masks and HSRP virtual default gateway.
+- [ ] Area192_DSW1, SW1 and SW2 have working management connectivity.
+- [ ] Both Area192 LACP EtherChannels are operational, with their member interfaces successfully bundled.
+- [ ] Both Area192 Port-channel interfaces have successfully negotiated 802.1Q trunking using DTP, rather than operating as access links.
+- [ ] Area192_DSW1 is the Rapid PVST+ root bridge for VLAN 1.
+- [ ] HSRP has the correct active/standby roles, with R1 preferred as active and R2 as standby under normal conditions.
+- [ ] HSRP failover occurs when R1's tracked WAN interface goes down, with R2 becoming active.
+- [ ] HSRP preemption restores R1 as the active router when its WAN interface recovers.
+- [ ] All ISP-side devices (`Internet`, `ISP_R1` and `ISP_R2`) remain unchanged.
+
 
 ## Completion
 
