@@ -1,0 +1,111 @@
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+track 1 interface GigabitEthernet0/3 line-protocol
+!
+no aaa new-model
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.11.11.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 192.168.1.2 255.255.255.0
+ standby version 2
+ standby 1 ip 192.168.1.1
+ standby 1 priority 110
+ standby 1 preempt
+ standby 1 track 1 decrement 20
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 163.109.10.1 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router ospf 10
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ network 10.11.11.0 0.0.0.3 area 0
+ default-information originate
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 163.109.10.2
+!
+ipv6 ioam timestamp
+!
+!
+!
+control-plane
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end

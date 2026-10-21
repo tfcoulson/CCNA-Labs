@@ -1,0 +1,133 @@
+hostname Area192_DSW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+spanning-tree extend system-id
+spanning-tree vlan 1 priority 24576
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport mode dynamic desirable
+!
+interface Port-channel2
+ switchport mode dynamic desirable
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+ switchport mode dynamic desirable
+ channel-group 2 mode active
+!
+interface FastEthernet0/22
+ switchport mode dynamic desirable
+ channel-group 2 mode active
+!
+interface FastEthernet0/23
+ switchport mode dynamic desirable
+ channel-group 1 mode active
+!
+interface FastEthernet0/24
+ switchport mode dynamic desirable
+ channel-group 1 mode active
+!
+interface GigabitEthernet0/1
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ negotiation auto
+!
+interface Vlan1
+ ip address 192.168.1.254 255.255.255.0
+!
+ip default-gateway 192.168.1.1
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+!
+!
+!
+!
+!
+control-plane
+!
+line con 0
+line aux 0
+line vty 0 4
+!
+!
+end

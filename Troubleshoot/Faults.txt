@@ -1,0 +1,70 @@
+Area10_SW1>en
+Area10_SW1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area10_SW1(config)#int fa0/1
+Area10_SW1(config-if)#switchport access vlan 20
+Area10_SW1(config-if)#end
+
+Area10_SW2>en
+Area10_SW2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area10_SW2(config)#spanning-tree vlan 10 root primary 
+Area10_SW2(config)#spanning-tree vlan 20 root primary 
+Area10_SW2(config)#spanning-tree vlan 1 root primary 
+Area10_SW2(config)#int fa0/1
+Area10_SW2(config-if)#switchport mode trunk 
+Area10_SW2(config-if)#end
+
+Area10_DSW2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area10_DSW2(config)#int ra fa0/23-24
+Area10_DSW2(config-if-range)# switchport trunk allowed vlan 1
+Area10_DSW2(config-if-range)#end
+
+Area10_DSW3#
+Area10_DSW3#conf t
+Area10_DSW3(config)#spanning-tree vlan 1 priority 4096
+Area10_DSW3(config)#spanning-tree vlan 10 priority 4096
+Area10_DSW3(config)#spanning-tree vlan 20 priority 4096
+Area10_DSW3(config)#end
+
+Area10_DSW1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area10_DSW1(config)#int vlan 10
+Area10_DSW1(config-if)#no ip address 10.10.10.1 255.255.255.224
+Area10_DSW1(config-if)#ip address 10.10.10.1 255.255.255.0
+Area10_DSW1(config-if)#int vlan 20
+Area10_DSW1(config-if)#no ip address 10.20.20.17 255.255.255.240
+Area10_DSW1(config-if)#ip address 10.20.20.17 255.255.255.0
+Area10_DSW1(config-if)#end
+
+Area10_PC2 no IP address
+
+
+Area192_DSW1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area192_DSW1(config)#no ip default-gateway 192.168.1.1
+Area192_DSW1(config)#int po 1
+Area192_DSW1(config-if)#shutdown 
+Area192_DSW1(config-if)#int ra fa0/21-22
+Area192_DSW1(config-if-range)#switchport mode dynamic auto 
+Area192_DSW1(config-if-range)#no channel-group 2 mode active 
+Area192_DSW1(config-if-range)#channel-group 2 mode passive 
+Area192_DSW1(config-if-range)#interface Port-channel2
+Area192_DSW1(config-if)# switchport mode dynamic auto
+Area192_DSW1(config-if)#end
+
+Area192_SW2#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Area192_SW2(config)#int range fa0/23-24
+Area192_SW2(config-if-range)#no channel-group 2 mode active 
+Area192_SW2(config-if-range)#channel-group 2 mode passive 
+Area192_SW2(config-if-range)#switchport mode dynamic auto 
+Area192_SW2(config-if-range)#interface Port-channel2
+Area192_SW2(config-if)# switchport mode dynamic auto
+Area192_SW2(config-if)#end
+
+Area192_PC2 no IP address
+
+
+
